@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="et" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Restobroneerimine</title>
+    <style>
+        .grid { display: grid; grid-template-columns: repeat(7, 90px); gap: 10px; margin-top: 16px; }
+        .table { border: 1px solid #999; padding: 10px; border-radius: 12px; }
+        .busy { opacity: 0.35; }
+    </style>
+</head>
+<body>
+<h1>Saaliplaan</h1>
+<p>Hallid lauad on hetkel broneeritud (random demoandmed).</p>
+
+<div class="grid">
+    <div th:each="t : ${tables}"
+         th:class="'table ' + (${busyIds.contains(t.id)} ? 'busy' : '')">
+        <div><b th:text="${t.label}">T1</b></div>
+        <div th:text="'Kohti: ' + ${t.capacity}">Kohti: 4</div>
+        <div th:text="${t.zone}">INSIDE</div>
+    </div>
+</div>
+</body>
+</html>
