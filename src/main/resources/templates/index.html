@@ -19,6 +19,9 @@
         <div><b th:text="${t.label}">T1</b></div>
         <div th:text="'Kohti: ' + ${t.capacity}">Kohti: 4</div>
         <div th:text="${t.zone}">INSIDE</div>
+
+        <div th:if="${t.features != null and !t.features.isEmpty()}"
+             th:text="${t.features}"></div>
     </div>
 </div>
 </body>

@@ -25,11 +25,11 @@ public class RestobroneerimineApplication {
     CommandLineRunner seed(TableRepository tableRepo, ReservationRepository resRepo) {
         return args -> {
             if (tableRepo.count() == 0) {
-                tableRepo.save(makeTable("T1", 2, Zone.SISESAAL, 1, 1, EnumSet.of(Preference.WINDOW)));
-                tableRepo.save(makeTable("T2", 4, Zone.SISESAAL, 3, 1, EnumSet.of(Preference.QUIET)));
-                tableRepo.save(makeTable("T3", 4, Zone.TERRASS, 1, 3, EnumSet.of(Preference.WINDOW)));
-                tableRepo.save(makeTable("T4", 6, Zone.SISESAAL, 3, 3, EnumSet.of(Preference.NEAR_KIDS)));
-                tableRepo.save(makeTable("T5", 8, Zone.PRIVAATRUUM, 5, 2, EnumSet.of(Preference.QUIET, Preference.ACCESSIBLE)));
+                tableRepo.save(makeTable("T1", 2, Zone.SISESAAL, 1, 1, EnumSet.of(Preference.AKNAALL)));
+                tableRepo.save(makeTable("T2", 4, Zone.SISESAAL, 3, 1, EnumSet.of(Preference.VAIKNENURK)));
+                tableRepo.save(makeTable("T3", 4, Zone.TERRASS, 1, 3, EnumSet.of(Preference.AKNAALL)));
+                tableRepo.save(makeTable("T4", 6, Zone.SISESAAL, 3, 3, EnumSet.of(Preference.LASTENURGALÄHEDAL)));
+                tableRepo.save(makeTable("T5", 8, Zone.PRIVAATRUUM, 5, 2, EnumSet.of(Preference.VAIKNENURK, Preference.LIHTNELIGIPÄÄS)));
             }
 
             Random r = new Random();
