@@ -1,6 +1,8 @@
 package ee.cgi.broneerimine.domain;
 
 import jakarta.persistence.*;
+import java.util.EnumSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "tables")
@@ -14,6 +16,12 @@ public class TableEntity {
 
     @Enumerated(EnumType.STRING)
     private Zone zone;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "table_features", joinColumns = @JoinColumn(name = "table_id"))
+    @Column(name = "feature")
+    private Set<Preference> features = EnumSet.noneOf(Preference.class);
 
     // koordinaadid ruudustikul
     private int x;
@@ -37,4 +45,7 @@ public class TableEntity {
 
     public int getY() { return y; }
     public void setY(int y) { this.y = y; }
+
+    public Set<Preference> getFeatures() { return features; }
+    public void setFeatures(Set<Preference> features) { this.features = features; }
 }

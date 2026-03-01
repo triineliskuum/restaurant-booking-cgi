@@ -10,7 +10,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDateTime;
+import java.util.EnumSet;
 import java.util.Random;
+import java.util.Set;
 
 @SpringBootApplication
 public class RestobroneerimineApplication {
@@ -23,11 +25,11 @@ public class RestobroneerimineApplication {
     CommandLineRunner seed(TableRepository tableRepo, ReservationRepository resRepo) {
         return args -> {
             if (tableRepo.count() == 0) {
-                tableRepo.save(makeTable("T1", 2, Zone.SISESAAL, 1, 1));
-                tableRepo.save(makeTable("T2", 4, Zone.SISESAAL, 3, 1));
-                tableRepo.save(makeTable("T3", 4, Zone.TERRASS, 1, 3));
-                tableRepo.save(makeTable("T4", 6, Zone.SISESAAL, 3, 3));
-                tableRepo.save(makeTable("T5", 8, Zone.PRIVAATRUUM, 5, 2));
+                tableRepo.save(makeTable("T1", 2, Zone.SISESAAL, 1, 1, EnumSet.of(Preference.WINDOW)));
+                tableRepo.save(makeTable("T2", 4, Zone.SISESAAL, 3, 1, EnumSet.of(Preference.QUIET)));
+                tableRepo.save(makeTable("T3", 4, Zone.TERRASS, 1, 3, EnumSet.of(Preference.WINDOW)));
+                tableRepo.save(makeTable("T4", 6, Zone.SISESAAL, 3, 3, EnumSet.of(Preference.NEAR_KIDS)));
+                tableRepo.save(makeTable("T5", 8, Zone.PRIVAATRUUM, 5, 2, EnumSet.of(Preference.QUIET, Preference.ACCESSIBLE)));
             }
 
             Random r = new Random();
@@ -53,13 +55,14 @@ public class RestobroneerimineApplication {
         };
     }
 
-    private TableEntity makeTable(String label, int cap, Zone zone, int x, int y) {
+    private TableEntity makeTable(String label, int cap, Zone zone, int x, int y, Set<Preference> features) {
         TableEntity t = new TableEntity();
         t.setLabel(label);
         t.setCapacity(cap);
         t.setZone(zone);
         t.setX(x);
         t.setY(y);
+        t.setFeatures(features);
         return t;
     }
 }
