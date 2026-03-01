@@ -7,15 +7,25 @@
         .grid { display: grid; grid-template-columns: repeat(7, 90px); gap: 10px; margin-top: 16px; }
         .table { border: 1px solid #999; padding: 10px; border-radius: 12px; }
         .busy { opacity: 0.35; }
+        .recommended { border-width: 3px; }
     </style>
 </head>
 <body>
 <h1>Saaliplaan</h1>
 <p>Hallid lauad on hetkel broneeritud (random demoandmed).</p>
 
+<form method="get" action="/">
+    <label>Inimesi:
+        <input type="number" name="people" min="1" th:value="${people}">
+    </label>
+    <button type="submit">Soovita</button>
+</form>
+
 <div class="grid">
     <div th:each="t : ${tables}"
-         th:class="'table ' + (${busyIds.contains(t.id)} ? 'busy' : '')">
+         th:class="'table ' +
+         (${busyIds.contains(t.id)} ? 'busy ' : '') +
+         (${recommendedId != null and recommendedId.equals(t.id)} ? 'recommended' : '')">
         <div><b th:text="${t.label}">T1</b></div>
         <div th:text="'Kohti: ' + ${t.capacity}">Kohti: 4</div>
         <div th:text="${t.zone}">INSIDE</div>
