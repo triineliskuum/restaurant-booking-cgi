@@ -18,6 +18,33 @@
     <label>Inimesi:
         <input type="number" name="people" min="1" th:value="${people}">
     </label>
+    <fieldset>
+        <legend>Eelistused</legend>
+
+        <label>
+            <input type="checkbox" name="prefs" value="AKNAALL"
+                   th:checked="${prefs != null and prefs.contains(T(ee.cgi.broneerimine.domain.Preference).AKNAALL)}" />
+            Aknakoht
+        </label>
+
+        <label>
+            <input type="checkbox" name="prefs" value="VAIKNENURK"
+                   th:checked="${prefs != null and prefs.contains(T(ee.cgi.broneerimine.domain.Preference).VAIKNENURK)}" />
+            Vaikne nurk
+        </label>
+
+        <label>
+            <input type="checkbox" name="prefs" value="LASTENURGALAHEDAL"
+                   th:checked="${prefs != null and prefs.contains(T(ee.cgi.broneerimine.domain.Preference).LASTENURGALAHEDAL)}" />
+            Lasteala lähedal
+        </label>
+
+        <label>
+            <input type="checkbox" name="prefs" value="LIHTNELIGIPAAS"
+                   th:checked="${prefs != null and prefs.contains(T(ee.cgi.broneerimine.domain.Preference).LIHTNELIGIPAAS)}" />
+            Ligipääsetav
+        </label>
+    </fieldset>
     <button type="submit">Soovita</button>
 </form>
 
