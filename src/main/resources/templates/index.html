@@ -8,6 +8,8 @@
         .table { border: 1px solid #999; padding: 10px; border-radius: 12px; }
         .busy { opacity: 0.35; }
         .recommended { border-width: 3px; }
+        .table { white-space: normal; }
+        .table div { font-size: 12px; }
     </style>
 </head>
 <body>
@@ -15,6 +17,9 @@
 <p>Hallid lauad on hetkel broneeritud (random demoandmed).</p>
 
 <form method="get" action="/">
+    <label>Aeg:
+        <input type="datetime-local" name="dt" th:value="${dt}">
+    </label>
     <label>Inimesi:
         <input type="number" name="people" min="1" th:value="${people}">
     </label>

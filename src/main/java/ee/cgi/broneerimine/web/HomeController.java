@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -20,6 +21,7 @@ public class HomeController {
     private final TableRepository tableRepo;
     private final ReservationRepository reservationRepo;
     private final RecommendationService recommendationService;
+    private static final DateTimeFormatter datetimeformat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 
     public HomeController(TableRepository tableRepo, ReservationRepository reservationRepo, RecommendationService recommendationService) {
         this.tableRepo = tableRepo;
@@ -28,13 +30,17 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String home(@RequestParam(required = false) Integer people,
+    public String home(@RequestParam(required = false) String dt,
+                       @RequestParam(required = false) Integer people,
                        @RequestParam(required = false) Set<Preference> prefs,
                        Model model) {
         int p = (people == null || people < 1) ? 2 : people;
         Set<Preference> selectedPrefs = (prefs == null) ? Set.of() : prefs;
 
-        LocalDateTime time = LocalDateTime.now().withSecond(0).withNano(0);
+        LocalDateTime time = (dt == null || dt.isBlank())
+                ? LocalDateTime.now().withSecond(0).withNano(0)
+                : LocalDateTime.parse(dt, datetimeformat);
+
         LocalDateTime to = time.plusHours(2);
 
         var reservations = reservationRepo.findByStartTimeLessThanAndEndTimeGreaterThan(to, time);
@@ -58,6 +64,8 @@ public class HomeController {
         // et vorm saaks väärtused tagasi
         model.addAttribute("people", p);
         model.addAttribute("prefs", selectedPrefs);
+
+        model.addAttribute("dt", time.format(datetimeformat));
 
         return "index";
     }
