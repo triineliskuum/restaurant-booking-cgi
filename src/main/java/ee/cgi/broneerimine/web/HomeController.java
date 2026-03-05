@@ -53,7 +53,8 @@ public class HomeController {
 
         Set<TableEntity> available = tables.stream()
                 .filter(t -> !busyIds.contains(t.getId()))
-                .collect(Collectors.toSet());
+                .sorted(java.util.Comparator.comparing(TableEntity::getId))
+                .collect(Collectors.toCollection(java.util.LinkedHashSet::new));
 
         Long recommendedId = recommendationService
                 .recommendBest(available, p, selectedPrefs)
@@ -77,7 +78,15 @@ public class HomeController {
     public String reserve(@RequestParam Long tableId,
                           @RequestParam String dt,
                           @RequestParam Integer people,
+                          @RequestParam(required = false) Set<Preference> prefs,
                           RedirectAttributes ra) {
+
+        String prefsQuery = "";
+        if (prefs != null && !prefs.isEmpty()) {
+            prefsQuery = prefs.stream()
+                    .map(p -> "&prefs=" + p.name())
+                    .collect(Collectors.joining());
+        }
 
         LocalDateTime start = LocalDateTime.parse(dt, datetimeformat);
         LocalDateTime end = start.plusHours(2);
@@ -88,7 +97,7 @@ public class HomeController {
 
         if (busy) {
             ra.addFlashAttribute("error", "See laud on sellel ajal juba broneeritud.");
-            return "redirect:/?dt=" + dt + "&people=" + people;
+            return "redirect:/?dt=" + dt + "&people=" + people + prefsQuery;
         }
 
         ReservationEntity r = new ReservationEntity();
@@ -99,7 +108,8 @@ public class HomeController {
 
         reservationRepo.save(r);
 
-        ra.addFlashAttribute("success", "Broneering loodud!");
-        return "redirect:/?dt=" + dt + "&people=" + people;
+        String label = tableRepo.findById(tableId).map(TableEntity::getLabel).orElse("?");
+        ra.addFlashAttribute("success", "Broneering loodud! Laud: " + label);
+        return "redirect:/?dt=" + dt + "&people=" + people + prefsQuery;
     }
 }

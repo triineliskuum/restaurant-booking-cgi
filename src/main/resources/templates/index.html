@@ -6,7 +6,7 @@
     <style>
         .grid { display: grid; grid-template-columns: repeat(7, 90px); gap: 10px; margin-top: 16px; }
         .table { border: 1px solid #999; padding: 10px; border-radius: 12px; }
-        .busy { opacity: 0.35; }
+        .busy { opacity: 0.35; pointer-events: none; }
         .recommended { border-width: 3px; }
         .table { white-space: normal; }
         .table div { font-size: 12px; }
@@ -73,6 +73,7 @@
                 <input type="hidden" name="tableId" th:value="${t.id}" />
                 <input type="hidden" name="dt" th:value="${dt}" />
                 <input type="hidden" name="people" th:value="${people}" />
+                <input type="hidden" name="prefs" th:each="p : ${prefs}" th:value="${p}" />
                 <button type="submit">Broneeri see laud</button>
             </form>
         </div>
