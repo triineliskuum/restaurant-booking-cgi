@@ -4,17 +4,36 @@
     <meta charset="UTF-8" />
     <title>Restobroneerimine</title>
     <style>
-        .grid { display: grid; grid-template-columns: repeat(7, 90px); gap: 10px; margin-top: 16px; }
-        .table { border: 1px solid #999; padding: 10px; border-radius: 12px; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 160px);
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .table {
+            border: 2px solid #999;
+            padding: 14px;
+            border-radius: 12px;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: #f9f9f9;
+        }
+
+        .table div { font-size: 14px; }
+
         .busy { opacity: 0.35; pointer-events: none; }
-        .recommended { border-width: 3px; }
-        .table { white-space: normal; }
-        .table div { font-size: 12px; }
+
+        .recommended { border: 3px solid #333; background: #eef5ff; }
+
+        .features { font-size: 12px; margin-top: 6px; word-wrap: break-word; }
     </style>
 </head>
 <body>
 <h1>Saaliplaan</h1>
-<p>Hallid lauad on hetkel broneeritud (random demoandmed).</p>
+<p>Hallid lauad on hetkel broneeritud.</p>
 
 <div th:if="${error != null}" th:text="${error}" style="color:red;"></div>
 <div th:if="${success != null}" th:text="${success}" style="color:green;"></div>
@@ -65,8 +84,10 @@
         <div th:text="'Kohti: ' + ${t.capacity}">Kohti: 4</div>
         <div th:text="${t.zone}">INSIDE</div>
 
-        <div th:if="${t.features != null and !t.features.isEmpty()}"
-             th:text="${t.features}"></div>
+        <div class="features"
+             th:if="${t.features != null and !t.features.isEmpty()}"
+             th:text="${t.features}">
+        </div>
 
         <div th:if="${recommendedId != null and recommendedId.equals(t.id) and !busyIds.contains(t.id)}">
             <form method="post" action="/reserve">
