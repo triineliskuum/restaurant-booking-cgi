@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface ReservationRepository extends JpaRepository<ReservationEntity, Long> {
     List<ReservationEntity> findByStartTimeLessThanAndEndTimeGreaterThan(LocalDateTime to, LocalDateTime from);
+
+    boolean existsByTableIdAndStartTimeLessThanAndEndTimeGreaterThan(Long tableId, LocalDateTime startTime, LocalDateTime endTime);
 }

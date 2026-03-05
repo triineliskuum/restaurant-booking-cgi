@@ -16,6 +16,9 @@
 <h1>Saaliplaan</h1>
 <p>Hallid lauad on hetkel broneeritud (random demoandmed).</p>
 
+<div th:if="${error != null}" th:text="${error}" style="color:red;"></div>
+<div th:if="${success != null}" th:text="${success}" style="color:green;"></div>
+
 <form method="get" action="/">
     <label>Aeg:
         <input type="datetime-local" name="dt" th:value="${dt}">
@@ -65,6 +68,16 @@
         <div th:if="${t.features != null and !t.features.isEmpty()}"
              th:text="${t.features}"></div>
     </div>
+</div>
+
+<div th:if="${recommendedId != null and recommendedId.equals(t.id) and !busyIds.contains(t.id)}">
+    <form method="post" action="/reserve">
+        <input type="hidden" name="tableId" th:value="${t.id}">
+        <input type="hidden" name="dt" th:value="${dt}">
+        <input type="hidden" name="people" th:value="${people}">
+        <!-- prefs hiddenid jätame praegu ära; pole vaja broneeringu salvestamiseks -->
+        <button type="submit">Broneeri see laud</button>
+    </form>
 </div>
 </body>
 </html>

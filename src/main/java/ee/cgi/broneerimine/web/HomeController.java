@@ -1,6 +1,7 @@
 package ee.cgi.broneerimine.web;
 
 import ee.cgi.broneerimine.domain.Preference;
+import ee.cgi.broneerimine.domain.ReservationEntity;
 import ee.cgi.broneerimine.domain.TableEntity;
 import ee.cgi.broneerimine.repo.ReservationRepository;
 import ee.cgi.broneerimine.repo.TableRepository;
@@ -8,7 +9,9 @@ import ee.cgi.broneerimine.service.RecommendationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -68,5 +71,35 @@ public class HomeController {
         model.addAttribute("dt", time.format(datetimeformat));
 
         return "index";
+    }
+
+    @PostMapping("/reserve")
+    public String reserve(@RequestParam Long tableId,
+                          @RequestParam String dt,
+                          @RequestParam Integer people,
+                          RedirectAttributes ra) {
+
+        LocalDateTime start = LocalDateTime.parse(dt, datetimeformat);
+        LocalDateTime end = start.plusHours(2);
+
+        // Kontroll: kas laud on vaba (kattuvus)
+        boolean busy = reservationRepo
+                .existsByTableIdAndStartTimeLessThanAndEndTimeGreaterThan(tableId, end, start);
+
+        if (busy) {
+            ra.addFlashAttribute("error", "See laud on sellel ajal juba broneeritud.");
+            return "redirect:/?dt=" + dt + "&people=" + people;
+        }
+
+        ReservationEntity r = new ReservationEntity();
+        r.setTableId(tableId);
+        r.setStartTime(start);
+        r.setEndTime(end);
+        r.setPartySize(people);
+
+        reservationRepo.save(r);
+
+        ra.addFlashAttribute("success", "Broneering loodud!");
+        return "redirect:/?dt=" + dt + "&people=" + people;
     }
 }
