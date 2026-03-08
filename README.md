@@ -30,11 +30,14 @@ Tehnoloogiad:
 
 Sobivaima laua valimiseks kasutatakse lihtsat punktisüsteemi.
 Iga laua jaoks arvutatakse punktisumma, mis koosneb kolmest komponendist:
-1. Laua suuruse sobivus
+1. **Laua suuruse sobivus**
+
 Mida lähemal on laua mahutavus inimeste arvule, seda parem.
-2. Eelistuste vastavus
+2. **Eelistuste vastavus**
+
 Kui laud vastab kasutaja eelistustele (nt aknakoht), lisatakse punkte.
-3. Täpselt sobiva laua boonus
+3. **Täpselt sobiva laua boonus**
+
 Kui laud mahutab täpselt sama palju inimesi – 15 boonuspunkti.
 
 Kasutajale soovitatakse kõige kõrgema punktisummaga lauda.
@@ -62,6 +65,7 @@ Salvestab broneeringu:
 Rakenduse käivitamisel lisatakse automaatselt:
 - 5 näidislauda
 - 8 juhuslikku broneeringut
+- 
 See võimaldab rakendust kohe testida ilma käsitsi andmeid lisamata.
 
 # Tööle kulunud aeg
@@ -74,20 +78,23 @@ Kasutajaliides (Thymeleaf) – 2h
 Broneerimisloogika – 1h  
 Parandused ja testimine – 1h  
 
-Kokku ~7–8 tundi
+Kokku 7–8 tundi
 
 # Keerulisemad probleemid
 
 ### Broneeringute kattuvuse kontroll:
 Üks keerulisemaid osasid oli kontrollida, kas uus broneering kattub olemasolevaga.
-Selleks kasutasin Spring Data JPA päringut:
+
+Selleks kasutasin Spring Data JPA päringut
 existsByTableIdAndStartTimeLessThanAndEndTimeGreaterThan
+
 See kontrollib, kas olemasolev broneering algab enne uue broneeringu lõppu ja lõpeb pärast uue broneeringu algust.
 
 ### Laua soovitusalgoritm:
 Sobiva laua leidmine nõudis tasakaalu:
 - mitte soovitada liiga suurt lauda
 - arvestada kasutaja eelistustega
+
 Selle lahendamiseks kasutati lihtsat punktisüsteemi.
 
 # Abiallikad
