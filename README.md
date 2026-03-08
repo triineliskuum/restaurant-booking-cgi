@@ -33,9 +33,11 @@ Iga laua jaoks arvutatakse punktisumma, mis koosneb kolmest komponendist:
 1. **Laua suuruse sobivus**
 
 Mida lähemal on laua mahutavus inimeste arvule, seda parem.
+
 2. **Eelistuste vastavus**
 
 Kui laud vastab kasutaja eelistustele (nt aknakoht), lisatakse punkte.
+
 3. **Täpselt sobiva laua boonus**
 
 Kui laud mahutab täpselt sama palju inimesi – 15 boonuspunkti.
@@ -65,7 +67,7 @@ Salvestab broneeringu:
 Rakenduse käivitamisel lisatakse automaatselt:
 - 5 näidislauda
 - 8 juhuslikku broneeringut
-- 
+
 See võimaldab rakendust kohe testida ilma käsitsi andmeid lisamata.
 
 # Tööle kulunud aeg
@@ -85,7 +87,8 @@ Kokku 7–8 tundi
 ### Broneeringute kattuvuse kontroll:
 Üks keerulisemaid osasid oli kontrollida, kas uus broneering kattub olemasolevaga.
 
-Selleks kasutasin Spring Data JPA päringut
+Selleks kasutasin Spring Data JPA päringut:
+
 existsByTableIdAndStartTimeLessThanAndEndTimeGreaterThan
 
 See kontrollib, kas olemasolev broneering algab enne uue broneeringu lõppu ja lõpeb pärast uue broneeringu algust.
